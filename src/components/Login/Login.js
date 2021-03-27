@@ -26,6 +26,7 @@ const Login = () => {
         //console.log(response.user);
         const signedInUser = { name:displayName, email };
         setLogInUser(signedInUser);
+        storeAuthToken();
         history.replace(from);
       })
       .catch((error) => {
@@ -36,20 +37,34 @@ const Login = () => {
         console.log(errorMessage, errorCode, email);
       });
   }
+
+  const storeAuthToken=()=>{
+    firebase.auth().currentUser.getIdToken(/* forceRefresh */ true)
+    .then(function(idToken) {
+      // console.log(idToken)
+      sessionStorage.setItem('token', idToken);
+      
+    }).catch(function(error) {
+      // Handle error
+    });
+  }
   return (
     <div>
-      <h1> Login</h1>
+      <h1> Google Login</h1>
       <button
         style={{
-          backgroundColor: "tomato",
+          
           height: "40px",
-          color: "white",
           fontSize: "20px",
           textAlign: "center",
+          borderRadius:'5px',
+          fontWeight:"700",
+          marginLeft:'10px'
         }}
         onClick={handleGoogleSignIn}
       >
-        Google Sign In
+        Google
+        
       </button>
     </div>
   );
